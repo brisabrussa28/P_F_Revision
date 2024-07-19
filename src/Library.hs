@@ -20,55 +20,49 @@ data Obra = UnaObra{
 {------------------------------------------------------------------------------------------------------------}
 --Declaracion de Obras
 pato1 :: Obra
-pato1 = UnaObra{
-    nombre_obra = "Había una vez un pato.",
-    fecha_publicacion = 1997
-}
+pato1 = UnaObra "Había una vez un pato." 1997
 
 pato2 :: Obra
-pato2 = UnaObra{
-    nombre_obra = "¡Habia una vez un pato!",
-    fecha_publicacion = 1996
-}
+pato2 = UnaObra "¡Habia una vez un pato!" 1996
 
 msm :: Obra
-msm = UnaObra{
-    nombre_obra = "Mirtha, Susana y Moria.",
-    fecha_publicacion = 2010
-}
+msm = UnaObra "Mirtha, Susana y Moria." 2010
 
 semantivariboficiente :: Obra
-semantivariboficiente = UnaObra{
-    nombre_obra = "La semántica funcional del amoblamiento vertebral es riboficiente",
-    fecha_publicacion = 2020
-}
+semantivariboficiente = UnaObra "La semántica funcional del amoblamiento vertebral es riboficiente" 2020
 
 semanticaMsm :: Obra
-semanticaMsm = UnaObra{
-    nombre_obra = "La semántica funcional de Mirtha, Susana y Moria.",
-    fecha_publicacion = 2022
-}
+semanticaMsm = UnaObra "La semántica funcional de Mirtha, Susana y Moria." 2022
 {------------------------------------------------------------------------------------------------------------}
 --Declaracion de autores
 robert :: Autor
-robert = UnAutor{
-    nombre_autor = "Robert Tuti",
-    obras = [pato1,msm]
-}
+robert = UnAutor "Robert Tuti" [pato1,msm]
 
 miriam :: Autor
-miriam = UnAutor{
-    nombre_autor = "Miriam Lopez",
-    obras = [pato2,semanticaMsm]
-}
+miriam = UnAutor "Miriam Lopez" [pato2,semanticaMsm]
 
 tito :: Autor
-tito = UnAutor{
-    nombre_autor = "Tito X",
-    obras = [semantivariboficiente]
-}
+tito = UnAutor "Tito X" [semantivariboficiente]
 {------------------------------------------------------------------------------------------------------------}
 -------------------------------------------------Punto 2 (F)--------------------------------------------------
+{-
+Conocer la versión cruda de un texto, que consiste en eliminar los acentos de las letras existentes y quitar signos de puntuación y todo carácter que no sea una letra o un número. 
+Por ejemplo, la versión cruda de "Había una vez un pato..." es "Habia una vez un pato"
+-}
+--Quitar acento de las letras
+quitarAcento :: Char -> Char
+quitarAcento 'á' = 'a'
+quitarAcento 'é' = 'e'
+quitarAcento 'í' = 'i'
+quitarAcento 'ó' = 'o'
+quitarAcento 'ú' = 'u'
+quitarAcento 'Á' = 'A'
+quitarAcento 'É' = 'E'
+quitarAcento 'Í' = 'I'
+quitarAcento 'Ó' = 'O'
+quitarAcento 'Ú' = 'U'
+
+
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 {--------------------------------------------------Plagios---------------------------------------------------}
@@ -157,6 +151,11 @@ todosPlagiadores [x] bot = False
 todosPlagiadores (x:y:xy) bot = alMenosUnaListaRepetida (obras x) (obras y) bot && todosPlagiadores (y:xy) bot
 
 --------------------------------------------------Punto 7 (F)-------------------------------------------------
+{-
+Dado un conjunto de autores y un bot, encontrar a los autores que  "hicieron plagio pero aprendieron",  
+que significa que luego de que el bot detectara que una de sus obras fue plagio de alguna de los otros autores, 
+nunca más volvió a plagiar. En definitiva, su plagio detectado fue el primero y el último.
+-}
 --Lista de autores redimidos
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
