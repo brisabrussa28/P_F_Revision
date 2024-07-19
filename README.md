@@ -9,6 +9,7 @@ En un sistema de registro de obras literarias, existen autores que producen obra
 De los autores, además de sus obras, se conoce también su nombre, y las obras se representan con un texto y un año de publicación.
 
 ## Autores y obras
+Realizar las actividades...
     1. Modelar las siguientes obras y que existan autores que las hayan publicado:
        1. "Había una vez un pato.", publicada en 1997
        2. "¡Habia una vez un pato!", publicada en 1996
@@ -19,6 +20,7 @@ De los autores, además de sus obras, se conoce también su nombre, y las obras 
         ***Por ejemplo, la versión cruda de "Había una vez un pato..." es "Habia una vez un pato"***
 
 ## Plagios
+Realizar las actividades...
     3. Se desea detectar si una obra es plagio de la otra. Hay distintas formas de reconocer un plagio, de los cuales se conocen las siguientes, pero podrían haber más. En cualquier caso, una obra debe haber sido publicada en un año posterior a la obra original para ser considerada un plagio. 
        1. Copia literal: ocurre cuando la versión cruda de una es igual a la de la otra. 
         ***Por ejemplo, A es plagio de B.*** 
@@ -36,5 +38,6 @@ Existen diferentes bots, y cada uno detecta diversas formas de plagio. Además s
     4. Dado un conjunto de autores y un bot, encontrar a los autores que  "hicieron plagio pero aprendieron",  que significa que luego de que el bot detectara que una de sus obras fue plagio de alguna de los otros autores, nunca más volvió a plagiar. En definitiva, su plagio detectado fue el primero y el último.
 
 ## Infinito
+Realizar las actividades...
     1. Codificar una obra infinita.
     2. ¿Qué sucede si se desea verificar si esa obra es plagio de otra con cada una de las formas existentes? Justificar conceptualmente en cada caso.
