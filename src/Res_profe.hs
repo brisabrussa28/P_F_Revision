@@ -1,145 +1,148 @@
-module Library where
+module Res_profe where
 import PdePreludat
 import Data.Char (toLower)
 
-data Obra = UnaObra {
+data Obra1 = UnaObra1 {
     contenido :: String,
     fecha :: Number
 } deriving (Show, Eq)
 
-data Autor = UnAutor{
+data Autor1 = UnAutor1{
    nombre :: String,
-   obras :: [Obra]
+   obras :: [Obra1]
 } deriving (Show,Eq)
 
 --Punto 1
 -- A
-obraA :: Obra
-obraA = UnaObra "Había una vez un pato." 1997
+obraA1 :: Obra1
+obraA1 = UnaObra1 "Había una vez un pato." 1997
 --B
-obraB :: Obra
-obraB = UnaObra "¡Habia una vez un pato!" 1998
+obraB1 :: Obra1
+obraB1 = UnaObra1 "¡Habia una vez un pato!" 1998
 --C
-obraC :: Obra
-obraC = UnaObra "Mirtha, Susana y Moria." 2010
+obraC1 :: Obra1
+obraC1 = UnaObra1 "Mirtha, Susana y Moria." 2010
 --D
-obraD :: Obra
-obraD = UnaObra "La semántica funcional del amoblamiento vertebral es riboficiente" 2020
+obraD1 :: Obra1
+obraD1 = UnaObra1 "La semántica funcional del amoblamiento vertebral es riboficiente" 2020
 --E
-obraE :: Obra
-obraE = UnaObra "La semántica funcional de Mirtha, Susana y Moria." 2022
+obraE1 :: Obra1
+obraE1 = UnaObra1 "La semántica funcional de Mirtha, Susana y Moria." 2022
 
-autor1 :: Autor
-autor1 = UnAutor "nn1" [obraA]
-autor2 :: Autor
-autor2 = UnAutor "nn2" [obraB, obraC]
-autor3 :: Autor
-autor3 = UnAutor "nn3" [obraB, obraD]
-autor4 :: Autor
-autor4 = UnAutor "nn4" [obraE, obraB]
+autor11 :: Autor1
+autor11 = UnAutor1 "nn1" [obraA1]
+autor21 :: Autor1
+autor21 = UnAutor1 "nn2" [obraB1, obraC1]
+autor31 :: Autor1
+autor31 = UnAutor1 "nn3" [obraB1, obraD1]
+autor41 :: Autor1
+autor41 = UnAutor1 "nn4" [obraE1, obraB1]
 
 --Punto 2
-versionCruda :: String -> String
-versionCruda = filter esLetraONumero.map sinAcento
+versionCruda1 :: String -> String
+versionCruda1 = filter esLetraONumero1.map sinAcento1
 
-esLetraONumero :: Char ->  Bool
-esLetraONumero caracter = elem caracter todasLasLetrasYNumeros 
+vC :: String -> String
+vC = filter (`elem` (['a'..'z']++['A'..'Z'] ++ "0123456789 ")).map sinAcento1
 
-sinAcento :: Char ->  Char
-sinAcento 'á' = 'a'
-sinAcento 'é' = 'e'
-sinAcento 'í' = 'i'
-sinAcento 'ó' = 'o'
-sinAcento 'ú' = 'u'
-sinAcento 'Á' = 'A'
-sinAcento 'É' = 'E'
-sinAcento 'Í' = 'I'
-sinAcento 'Ó' = 'O'
-sinAcento 'Ú' = 'U'
-sinAcento letra = letra
+esLetraONumero1 :: Char ->  Bool
+esLetraONumero1 caracter = caracter `elem` todasLasLetrasYNumeros1
+
+sinAcento1 :: Char ->  Char
+sinAcento1 'á' = 'a'
+sinAcento1 'é' = 'e'
+sinAcento1 'í' = 'i'
+sinAcento1 'ó' = 'o'
+sinAcento1 'ú' = 'u'
+sinAcento1 'Á' = 'A'
+sinAcento1 'É' = 'E'
+sinAcento1 'Í' = 'I'
+sinAcento1 'Ó' = 'O'
+sinAcento1 'Ú' = 'U'
+sinAcento1 letra = letra
 
 
-todasLasLetrasYNumeros :: [Char]
-todasLasLetrasYNumeros = ['a'..'z']++['A'..'Z'] ++ "0123456789 "
+todasLasLetrasYNumeros1 :: [Char]
+todasLasLetrasYNumeros1 = ['a'..'z']++['A'..'Z'] ++ "0123456789 "
 
 --plagios
 --Punto 3
 
-type FormaDeteccion = String ->  String ->  Bool
+type FormaDeteccion1 = String ->  String ->  Bool
 
 --a
-copiaLiteral :: FormaDeteccion
-copiaLiteral texto textoOriginal = versionCruda texto == versionCruda  textoOriginal
+copiaLiteral1 :: FormaDeteccion1
+copiaLiteral1 texto textoOriginal = versionCruda1 texto == versionCruda1  textoOriginal
 --b
 
-empiezaIgual :: Number ->  FormaDeteccion
-empiezaIgual cantidadDeCaracteres texto textoOriginal = take cantidadDeCaracteres texto == take cantidadDeCaracteres textoOriginal &&  length texto < length textoOriginal
+empiezaIgual1 :: Number ->  FormaDeteccion1
+empiezaIgual1 cantidadDeCaracteres texto textoOriginal = take cantidadDeCaracteres texto == take cantidadDeCaracteres textoOriginal &&  length texto < length textoOriginal
 --c
-leAgregaronIntro :: FormaDeteccion
-leAgregaronIntro texto textoOriginal = ultimosElementos (length textoOriginal)  texto == textoOriginal
+leAgregaronIntro1 :: FormaDeteccion1
+leAgregaronIntro1 texto textoOriginal = ultimosElementos1 (length textoOriginal)  texto == textoOriginal
 
-ultimosElementos :: Number -> String -> String
-ultimosElementos cant texto  = drop (length texto - cant) texto
+ultimosElementos1 :: Number -> String -> String
+ultimosElementos1 cant texto  = drop (length texto - cant) texto
 --d
 
 -- 
 --punto 4
-data Bot = UnBot {
-    formas :: [FormaDeteccion],
+data Bot1 = UnBot1 {
+    formas :: [FormaDeteccion1],
     fabricante :: String
 } 
 
-botA :: Bot
-botA = UnBot [copiaLiteral, leAgregaronIntro, empiezaIgual 10] "botter"
+botA1 :: Bot1
+botA1 = UnBot1 [copiaLiteral1, leAgregaronIntro1, empiezaIgual1 10] "botter"
 
-botB :: Bot
-botB = UnBot [empiezaIgual 10, leAgregaronIntro] "botter"
+botB1 :: Bot1
+botB1 = UnBot1 [empiezaIgual1 10, leAgregaronIntro1] "botter"
 
 --5. Un bot detecta si una obra es plagio de otra si verifica alguna de las formas de detección que maneja.
 
-deteccion :: Obra -> Obra -> FormaDeteccion -> Bool
-deteccion obra obraOriginal forma = fecha obra > fecha obraOriginal && forma (contenido obra) (contenido obraOriginal)  
+deteccion1 :: Obra1 -> Obra1 -> FormaDeteccion1 -> Bool
+deteccion1 obra obraOriginal forma = fecha obra > fecha obraOriginal && forma (contenido obra) (contenido obraOriginal)  
 
-esPlagioDeEstaObra :: Bot -> Obra -> Obra -> Bool
-esPlagioDeEstaObra bot obra obraOriginal = any (deteccion obra obraOriginal)  (formas bot)
+esPlagioDeEstaObra1 :: Bot1 -> Obra1 -> Obra1 -> Bool
+esPlagioDeEstaObra1 bot obra obraOriginal = any (deteccion1 obra obraOriginal)  (formas bot)
 
 --6. Dado un conjunto de autores y un bot, detectar si es una cadena de plagiadores. Es decir, el segundo plagió al primero, el tercero al segundo, y así. Se considera que un autor plagió a otro cuando alguna de sus obras es plagio de alguna de las del otro según el bot.
 
-cadenaPlagiadores :: Bot ->  [Autor] -> Bool
-cadenaPlagiadores bot [ _] = False
-cadenaPlagiadores bot [x1,x2] = plagioA bot x1 x2
-cadenaPlagiadores bot (x1:x2:xs) = plagioA bot x1 x2 && cadenaPlagiadores bot (x2:xs)
+cadenaPlagiadores1 :: Bot1 ->  [Autor1] -> Bool
+cadenaPlagiadores1 bot [ _] = False
+cadenaPlagiadores1 bot [x1,x2] = plagioA1 bot x1 x2
+cadenaPlagiadores1 bot (x1:x2:xs) = plagioA1 bot x1 x2 && cadenaPlagiadores1 bot (x2:xs)
 
-plagioA :: Bot ->  Autor ->  Autor -> Bool
-plagioA bot autor autorOriginal = any (esPlagioDeEsteAutor bot autorOriginal) (obras autor)
+plagioA1 :: Bot1 ->  Autor1 ->  Autor1 -> Bool
+plagioA1 bot autor autorOriginal = any (esPlagioDeEsteAutor1 bot autorOriginal) (obras autor)
 
-esPlagioDeEsteAutor :: Bot -> Autor ->  Obra -> Bool
-esPlagioDeEsteAutor bot autorOriginal obra = any (esPlagioDeEstaObra bot obra) (obras autorOriginal)
+esPlagioDeEsteAutor1 :: Bot1 -> Autor1 ->  Obra1 -> Bool
+esPlagioDeEsteAutor1 bot autorOriginal obra = any (esPlagioDeEstaObra1 bot obra) (obras autorOriginal)
 
 --plagioA bot autor autorOriginal = any (\obra -> any (esPlagioDeEstaObra bot obra) (obras autorOriginal)) (obras autor)
 
 -- 7. Dado un conjunto de autores y un bot, encontrar a los autores que  "hicieron plagio pero aprendieron",  que significa que luego de que el bot detectara que una de sus obras fue plagio de alguna de los otros autores, nunca más volvió a plagiar. En definitiva, su plagio detectado fue el primero y el último.
 
-aprendieron :: Bot -> [Autor] -> [Autor]
-aprendieron bot autores = filter (\a -> aprendio bot a (quitar a autores)) autores 
+aprendieron1 :: Bot1 -> [Autor1] -> [Autor1]
+aprendieron1 bot autores = filter (\a -> aprendio1 bot a (quitar a autores)) autores 
   where quitar x = filter (/= x)
 
-aprendio :: Bot -> Autor -> [Autor] -> Bool
-aprendio bot autor autores =  length (obrasPlagiadasDelAutor bot autor autores) == 1
+aprendio1 :: Bot1 -> Autor1 -> [Autor1] -> Bool
+aprendio1 bot autor autores =  length (obrasPlagiadasDelAutor1 bot autor autores) == 1
 
-obrasPlagiadasDelAutor :: Bot -> Autor -> [Autor] -> [Obra]
-obrasPlagiadasDelAutor bot autor autores =  filter (esPlagioDeAlgunoDeEstosAutores bot autores) (obras autor) 
+obrasPlagiadasDelAutor1 :: Bot1 -> Autor1 -> [Autor1] -> [Obra1]
+obrasPlagiadasDelAutor1 bot autor autores =  filter (esPlagioDeAlgunoDeEstosAutores1 bot autores) (obras autor) 
 
-esPlagioDeAlgunoDeEstosAutores :: Bot -> [Autor] -> Obra -> Bool
-esPlagioDeAlgunoDeEstosAutores  bot autores obra = any (\autor -> esPlagioDeEsteAutor bot autor obra) autores
+esPlagioDeAlgunoDeEstosAutores1 :: Bot1 -> [Autor1] -> Obra1 -> Bool
+esPlagioDeAlgunoDeEstosAutores1  bot autores obra = any (\autor -> esPlagioDeEsteAutor1 bot autor obra) autores
 
 --8---------------------------------------------------
-obraInfinita :: Obra
-obraInfinita = UnaObra (repeat 'a') 2021
+obraInfinita1 :: Obra1
+obraInfinita1 = UnaObra1 (repeat 'a') 2021
 
 --9---------------------------------------------------
-obraInfinita2 :: Obra
-obraInfinita2 = UnaObra (repeat 'a') 2025
+obraInfinita21 :: Obra1
+obraInfinita21 = UnaObra1 (repeat 'a') 2025
 
 {-
 

@@ -50,51 +50,61 @@ Conocer la versión cruda de un texto, que consiste en eliminar los acentos de l
 Por ejemplo, la versión cruda de "Había una vez un pato..." es "Habia una vez un pato"
 -}
 --Quitar acento de las letras
-quitarAcento :: Char -> Char
-quitarAcento 'á' = 'a'
-quitarAcento 'é' = 'e'
-quitarAcento 'í' = 'i'
-quitarAcento 'ó' = 'o'
-quitarAcento 'ú' = 'u'
-quitarAcento 'Á' = 'A'
-quitarAcento 'É' = 'E'
-quitarAcento 'Í' = 'I'
-quitarAcento 'Ó' = 'O'
-quitarAcento 'Ú' = 'U'
+quitarAcentoLetra :: Char -> Char
+quitarAcentoLetra 'á' = 'a'
+quitarAcentoLetra 'é' = 'e'
+quitarAcentoLetra 'í' = 'i'
+quitarAcentoLetra 'ó' = 'o'
+quitarAcentoLetra 'ú' = 'u'
+quitarAcentoLetra 'Á' = 'A'
+quitarAcentoLetra 'É' = 'E'
+quitarAcentoLetra 'Í' = 'I'
+quitarAcentoLetra 'Ó' = 'O'
+quitarAcentoLetra 'Ú' = 'U'
+quitarAcentoLetra letra = letra
 
+--Quitar los caracteres especiales de una oracion
+dejarLetrasYNumeros :: String -> String
+dejarLetrasYNumeros = filter (`elem` (['a'..'z']++['A'..'Z']++['0'..'9']++[' ']))
 
+--Generar la version cruda de un texto
+reversionarTexto :: String -> String
+reversionarTexto = dejarLetrasYNumeros.map quitarAcentoLetra
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 {--------------------------------------------------Plagios---------------------------------------------------}
 -------------------------------------------------Punto 3 (R+)-------------------------------------------------
 largoObra :: Obra -> Number
-largoObra = length.nombre_obra
+largoObra = length.reversionarTexto.nombre_obra
 
 tomarPrimerosNCaracteresObra :: Number -> Obra -> String
-tomarPrimerosNCaracteresObra numero obra = take numero (nombre_obra obra)
+tomarPrimerosNCaracteresObra numero = take numero.reversionarTextoObra
 
 diferenciaEntreObras :: Obra -> Obra -> Number
 diferenciaEntreObras obra_1 obra_2 = largoObra obra_1 - largoObra obra_2
 
 tomarUltimosNCaracteres :: Number -> Obra -> String
-tomarUltimosNCaracteres numero obra = drop numero (nombre_obra obra)
+tomarUltimosNCaracteres numero = drop numero.reversionarTextoObra
 
 compararString :: String -> String -> Bool
-compararString str1 str2 = str1 == str2
+compararString str1 str2 = reversionarTexto str1 == reversionarTexto str2
+
+reversionarTextoObra :: Obra -> String
+reversionarTextoObra = reversionarTexto.nombre_obra
 
 type Plagio = Obra -> Obra -> Bool
 {------------------------------------------------------------------------------------------------------------}
 {----1----}
-copiaLiteral :: Plagio
+copiaLiteral :: Plagio --obra_1 es copia literal de obra_2
 copiaLiteral obra_1 obra_2 = compararString (nombre_obra obra_1 ) (nombre_obra obra_2)
 {------------------------------------------------------------------------------------------------------------}
 {----2----}
-empiezanIgual :: Number -> Plagio
+empiezanIgual :: Number -> Plagio --obra_1 comienza igual que obra_2 por x letras
 empiezanIgual numero obra_1 obra_2 = compararString (tomarPrimerosNCaracteresObra numero obra_1) (tomarPrimerosNCaracteresObra numero obra_2)
 {------------------------------------------------------------------------------------------------------------}
 {----3----}
-agregaronIntro :: Plagio
-agregaronIntro obra_1 obra_2 = compararString (tomarUltimosNCaracteres (diferenciaEntreObras obra_1 obra_2) obra_1) (nombre_obra obra_2)
+agregaronIntro :: Plagio --obra_1 agregó intro pero termina igual a obra_2
+agregaronIntro obra_1 obra_2 = compararString (tomarUltimosNCaracteres (diferenciaEntreObras obra_1 obra_2) obra_1) (reversionarTextoObra obra_2)
 {------------------------------------------------------------------------------------------------------------}
 {----4----}
 
