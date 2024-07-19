@@ -24,7 +24,7 @@ De los autores, además de sus obras, se conoce también su nombre, y las obras 
        1. Copia literal: ocurre cuando la versión cruda de una es igual a la de la otra. 
         Por ejemplo, A es plagio de B.
        2. Empieza igual: Los primeros caracteres de una obra son los mismos que otra, y su longitud es menor. La cantidad de caracteres a analizar puede ser variable. 
-        ***Por ejemplo, E es plagio de D para una cantidad 10, pero no para una cantidad 30.***
+        Por ejemplo, E es plagio de D para una cantidad 10, pero no para una cantidad 30.
        3. Le agregaron intro: La obra plagiada empieza a su manera, pero al final incluye totalmente el texto de la original. 
         Por ejemplo, E es plagio de C.
        4. Inventar otra forma de detectar plagio, utilizando una expresión lambda.
