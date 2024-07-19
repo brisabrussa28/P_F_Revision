@@ -3,6 +3,8 @@ import PdePreludat
 import Data.Char (toLower)
 
 ---Autores y Obras 
+
+--Punto 1 (ok)
 --Modelo de Autor
 data Autor = UnAutor{
     nombre_autor :: String,
@@ -65,7 +67,10 @@ tito = UnAutor{
     obras = [semantivariboficiente]
 }
 
+--Punto 2 (F)
+
 ---Plagios
+--Punto 3 (R+)
 largoObra :: Obra -> Number
 largoObra = length.nombre_obra
 
@@ -93,6 +98,7 @@ agregaronIntro :: Plagio
 agregaronIntro obra_1 obra_2 = compararString (tomarUltimosNCaracteres (diferenciaEntreObras obra_1 obra_2) obra_1) (nombre_obra obra_2)
 
 ---Bots
+--Punto 4 (ok)
 --Modelado de Bots
 data Bot = UnBot {
     nombre_fabricante :: String,
@@ -112,6 +118,7 @@ bot2 = UnBot{
     plagios = [copiaLiteral]
 }
 
+--Punto 5 (R+)
 --Si el bot detecta plagio
 detectoPlagio :: [Plagio] -> Obra -> Obra -> Bool
 detectoPlagio [x] obra_1 obra_2 = x obra_1 obra_2
@@ -123,6 +130,7 @@ detectoPlagio (x:y:xy) obra_1 obra_2
 botDetectoPlagio :: Bot -> Obra -> Obra -> Bool
 botDetectoPlagio bot = detectoPlagio (plagios bot)
 
+--Punto 6 (R+)
 --Cadena de Plagiadores ordenados
 obrasRepetidas :: Bot -> [Obra] -> Obra -> Bool
 obrasRepetidas bot obras obra = any (detectoPlagio (plagios bot) obra) obras
@@ -139,16 +147,19 @@ todosPlagiadores [] bot = False
 todosPlagiadores [x] bot = False
 todosPlagiadores (x:y:xy) bot = alMenosUnaListaRepetida (obras x) (obras y) bot && todosPlagiadores (y:xy) bot
 
+--Punto 7 (F)
 --Lista de autores redimidos
 
 
 ---Infinito
+--Punto 8
 obraInfinita :: Obra
 obraInfinita = UnaObra{
     fecha_publicacion = 0,
     nombre_obra = cycle "Infinito"
 }
 
+--Punto 9 (R+)
 {-
 --Copia literal
 Si comparo la obra infinita con una obra finita va devolver un booleano, porque recorrerá cada caracter hasta llegar al final de la oracion finita y 
