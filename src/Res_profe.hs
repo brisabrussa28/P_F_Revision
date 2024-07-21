@@ -108,34 +108,33 @@ esPlagioDeEstaObra1 bot obra obraOriginal = any (deteccion1 obra obraOriginal)  
 
 --6. Dado un conjunto de autores y un bot, detectar si es una cadena de plagiadores. Es decir, el segundo plagió al primero, el tercero al segundo, y así. Se considera que un autor plagió a otro cuando alguna de sus obras es plagio de alguna de las del otro según el bot.
 
+esPlagioDeEsteAutor1 :: Bot1 -> Autor1 ->  Obra1 -> Bool
+esPlagioDeEsteAutor1 bot autorOriginal obra = any (esPlagioDeEstaObra1 bot obra) (obras autorOriginal)
+
+plagioA1 :: Bot1 ->  Autor1 ->  Autor1 -> Bool
+plagioA1 bot autor autorOriginal = any (esPlagioDeEsteAutor1 bot autorOriginal) (obras autor)
+
 cadenaPlagiadores1 :: Bot1 ->  [Autor1] -> Bool
 cadenaPlagiadores1 bot [ _] = False
 cadenaPlagiadores1 bot [x1,x2] = plagioA1 bot x1 x2
 cadenaPlagiadores1 bot (x1:x2:xs) = plagioA1 bot x1 x2 && cadenaPlagiadores1 bot (x2:xs)
 
-plagioA1 :: Bot1 ->  Autor1 ->  Autor1 -> Bool
-plagioA1 bot autor autorOriginal = any (esPlagioDeEsteAutor1 bot autorOriginal) (obras autor)
-
-esPlagioDeEsteAutor1 :: Bot1 -> Autor1 ->  Obra1 -> Bool
-esPlagioDeEsteAutor1 bot autorOriginal obra = any (esPlagioDeEstaObra1 bot obra) (obras autorOriginal)
-
 --plagioA bot autor autorOriginal = any (\obra -> any (esPlagioDeEstaObra bot obra) (obras autorOriginal)) (obras autor)
 
 -- 7. Dado un conjunto de autores y un bot, encontrar a los autores que  "hicieron plagio pero aprendieron",  que significa que luego de que el bot detectara que una de sus obras fue plagio de alguna de los otros autores, nunca más volvió a plagiar. En definitiva, su plagio detectado fue el primero y el último.
 
-aprendieron1 :: Bot1 -> [Autor1] -> [Autor1]
-aprendieron1 bot autores = filter (\a -> aprendio1 bot a (quitar a autores)) autores 
-  where quitar x = filter (/= x)
-
-aprendio1 :: Bot1 -> Autor1 -> [Autor1] -> Bool
-aprendio1 bot autor autores =  length (obrasPlagiadasDelAutor1 bot autor autores) == 1
+esPlagioDeAlgunoDeEstosAutores1 :: Bot1 -> [Autor1] -> Obra1 -> Bool
+esPlagioDeAlgunoDeEstosAutores1  bot autores obra = any (\autor -> esPlagioDeEsteAutor1 bot autor obra) autores
 
 obrasPlagiadasDelAutor1 :: Bot1 -> Autor1 -> [Autor1] -> [Obra1]
 obrasPlagiadasDelAutor1 bot autor autores =  filter (esPlagioDeAlgunoDeEstosAutores1 bot autores) (obras autor) 
 
-esPlagioDeAlgunoDeEstosAutores1 :: Bot1 -> [Autor1] -> Obra1 -> Bool
-esPlagioDeAlgunoDeEstosAutores1  bot autores obra = any (\autor -> esPlagioDeEsteAutor1 bot autor obra) autores
+aprendio1 :: Bot1 -> Autor1 -> [Autor1] -> Bool
+aprendio1 bot autor autores =  length (obrasPlagiadasDelAutor1 bot autor autores) == 1
 
+aprendieron1 :: Bot1 -> [Autor1] -> [Autor1]
+aprendieron1 bot autores = filter (\a -> aprendio1 bot a (quitar a autores)) autores 
+  where quitar x = filter (/= x)
 --8---------------------------------------------------
 obraInfinita1 :: Obra1
 obraInfinita1 = UnaObra1 (repeat 'a') 2021

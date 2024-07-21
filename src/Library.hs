@@ -128,7 +128,7 @@ bot1 = UnBot{
 bot2 :: Bot
 bot2 = UnBot{
     nombre_fabricante = "HP",
-    plagios = [copiaLiteral]
+    plagios = [empiezanIgual 21]
 }
 
 --------------------------------------------------Punto 5 (R+)------------------------------------------------
@@ -137,8 +137,8 @@ detectoPlagio :: [Plagio] -> Obra -> Obra -> Bool
 detectoPlagio [x] obra_1 obra_2 = x obra_1 obra_2
 detectoPlagio [] obra_1 obra_2 = False
 detectoPlagio (x:y:xy) obra_1 obra_2 
-    |not (x obra_1 obra_2) = detectoPlagio (y:xy) obra_1 obra_2
-    |x obra_1 obra_2 = True
+    |fecha_publicacion obra_1 < fecha_publicacion obra_2 || not (x obra_1 obra_2) = detectoPlagio (y:xy) obra_1 obra_2
+    |x obra_1 obra_2 && fecha_publicacion obra_1 >= fecha_publicacion obra_2 = True
 
 botDetectoPlagio :: Bot -> Obra -> Obra -> Bool
 botDetectoPlagio bot = detectoPlagio (plagios bot)
