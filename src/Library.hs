@@ -1,161 +1,180 @@
 module Library where
 import PdePreludat
 import Data.Char (toLower)
+--para abrir library.hs: stack ghci
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+{-En un sistema de registro de obras literarias, existen autores que producen obras y bots que detectan eventuales plagios.
+De los autores, además de sus obras, se conoce también su nombre, y las obras se representan con un texto y un año de publicación.-}
 
----Autores y Obras
---Modelo de Autor
-data Autor = UnAutor{
-    nombre_autor :: String,
-    obras :: [Obra]
-} deriving Show
 
+{----------------------------------------------Autores y Obras-----------------------------------------------} 
+-------------------------------------------------Punto 1 (ok)-------------------------------------------------
+{-Modelar las siguientes obras y que existan autores que las hayan publicado:
+       1. "Había una vez un pato.", publicada en 1997
+       2. "¡Habia una vez un pato!", publicada en 1996
+       3. "Mirtha, Susana y Moria.", publicada en 2010
+       4. "La semántica funcional del amoblamiento vertebral es riboficiente", publicada en 2020
+       5. "La semántica funcional de Mirtha, Susana y Moria.", publicada en 2022-}
+{------------------------------------------------------------------------------------------------------------}
 --Modelo de obra
 data Obra = UnaObra{
-    nombre_obra :: String,
-    fecha_publicacion :: Number
+    titulo :: String,
+    año_publicacion :: Number
 } deriving Show
 
+{------------------------------------------------------------------------------------------------------------}
 --Declaracion de Obras
-pato1 :: Obra
-pato1 = UnaObra{
-    nombre_obra = "Había una vez un pato.",
-    fecha_publicacion = 1997
-}
+o_pato_1997 :: Obra
+o_pato_1997 = UnaObra "Había una vez un pato." 1997
 
-pato2 :: Obra
-pato2 = UnaObra{
-    nombre_obra = "¡Habia una vez un pato!",
-    fecha_publicacion = 1996
-}
+o_pato_1996 :: Obra
+o_pato_1996 = UnaObra "¡Habia una vez un pato!" 1996
 
-msm :: Obra
-msm = UnaObra{
-    nombre_obra = "Mirtha, Susana y Moria.",
-    fecha_publicacion = 2010
-}
+mSM :: Obra
+mSM = UnaObra "Mirtha, Susana y Moria." 2010
 
-semantivariboficiente :: Obra
-semantivariboficiente = UnaObra{
-    nombre_obra = "La semántica funcional del amoblamiento vertebral es riboficiente",
-    fecha_publicacion = 2020
-}
+semanticaV :: Obra
+semanticaV = UnaObra "La semántica funcional del amoblamiento vertebral es riboficiente" 2020
 
-semantica_msm :: Obra
-semantica_msm = UnaObra{
-    nombre_obra = "La semántica funcional de Mirtha, Susana y Moria.",
-    fecha_publicacion = 2022
-}
+semanticaMSM :: Obra
+semanticaMSM  = UnaObra "La semántica funcional de Mirtha, Susana y Moria." 2022
 
+{------------------------------------------------------------------------------------------------------------}
+--Modelo de Autor
+data Autor = UnAutor{
+    nombre :: String,
+    obras :: [Obra]
+}deriving Show
+
+{------------------------------------------------------------------------------------------------------------}
 --Declaracion de autores
-robert :: Autor
-robert = UnAutor{
-    nombre_autor = "Robert Tuti",
-    obras = [pato1,msm]
-}
+cesar :: Autor
+cesar = UnAutor "Julio Cesar" [o_pato_1997, mSM]
 
-miriam :: Autor
-miriam = UnAutor{
-    nombre_autor = "Miriam Lopez",
-    obras = [pato2,semantica_msm]
-}
+cortazar :: Autor
+cortazar = UnAutor "Julio Cortazar" [o_pato_1996]
 
-tito :: Autor
-tito = UnAutor{
-    nombre_autor = "Tito X",
-    obras = [semantivariboficiente]
-}
+trump :: Autor
+trump = UnAutor "Donald Trump" [semanticaV, semanticaMSM]
+{------------------------------------------------------------------------------------------------------------}
+-------------------------------------------------Punto 2 (F)--------------------------------------------------
+{-Conocer la versión cruda de un texto, que consiste en eliminar los acentos de las letras existentes y 
+quitar signos de puntuación y todo carácter que no sea una letra o un número. 
+Por ejemplo, la versión cruda de "Había una vez un pato..." es "Habia una vez un pato"-}
+{------------------------------------------------------------------------------------------------------------}
+letrasYNumeros :: [Char]
+letrasYNumeros = ['a'..'z']++['A'..'Z']++['0'..'9']++[' ']
 
----Plagios
-largoObra :: Obra -> Number
-largoObra = length.nombre_obra
+quitarCaracteresEspeciales :: String -> String
+quitarCaracteresEspeciales = filter (`elem` letrasYNumeros)
 
-tomarPrimerosNCaracteresObra :: Number -> Obra -> String
-tomarPrimerosNCaracteresObra numero obra = (take numero) (nombre_obra obra)
+quitarAcento :: Char -> Char
+quitarAcento 'á' = 'a'
+quitarAcento 'é' = 'e'
+quitarAcento 'í' = 'i'
+quitarAcento 'ó' = 'o'
+quitarAcento 'ú' = 'u'
+quitarAcento 'Á' = 'u'
+quitarAcento 'É' = 'u'
+quitarAcento 'Í' = 'u'
+quitarAcento 'Ó' = 'u'
+quitarAcento 'Ú' = 'u'
+quitarAcento letra = letra
 
-diferenciaEntreObras :: Obra -> Obra -> Number
-diferenciaEntreObras obra_1 obra_2 = largoObra obra_1 - largoObra obra_2
+purificarTexto :: String -> String
+purificarTexto = quitarCaracteresEspeciales.map quitarAcento
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-tomarUltimosNCaracteres :: Number -> Obra -> String
-tomarUltimosNCaracteres numero obra = drop (numero) (nombre_obra obra)
-
-compararString :: String -> String -> Bool
-compararString str1 str2 = str1 == str2
-
+{--------------------------------------------------Plagios---------------------------------------------------}
+-------------------------------------------------Punto 3 (R+)-------------------------------------------------
+{-Se desea detectar si una obra es plagio de la otra. Hay distintas formas de reconocer un plagio, 
+de los cuales se conocen las siguientes, pero podrían haber más. En cualquier caso, una obra debe haber 
+sido publicada en un año posterior a la obra original para ser considerada un plagio. 
+    1. Copia literal: ocurre cuando la versión cruda de una es igual a la de la otra. 
+        Por ejemplo, A es plagio de B.
+    2. Empieza igual: Los primeros caracteres de una obra son los mismos que otra, y su longitud es menor. 
+    La cantidad de caracteres a analizar puede ser variable. 
+        Por ejemplo, E es plagio de D para una cantidad 10, pero no para una cantidad 30.
+    3. Le agregaron intro: La obra plagiada empieza a su manera, pero al final incluye totalmente el 
+    texto de la original. 
+        Por ejemplo, E es plagio de C.
+    4. Inventar otra forma de detectar plagio, utilizando una expresión lambda.-}
+{------------------------------------------------------------------------------------------------------------}
+--Type Plagios
 type Plagio = Obra -> Obra -> Bool
 
+--Funciones auxiliares
+cantidadAgregado :: Obra -> Obra -> Number
+cantidadAgregado obra_1 obra_2 = length (purificarTexto (titulo obra_1))-length (purificarTexto (titulo obra_2))
+
+{----1----}
 copiaLiteral :: Plagio
-copiaLiteral obra_1 obra_2 = compararString (nombre_obra obra_1 ) (nombre_obra obra_2)
+copiaLiteral obra_1 obra_2 = purificarTexto (titulo obra_1) == purificarTexto (titulo obra_2)
 
-empiezanIgual :: Number -> Plagio
-empiezanIgual numero obra_1 obra_2 = compararString (tomarPrimerosNCaracteresObra numero obra_1) (tomarPrimerosNCaracteresObra numero obra_2)
+{------------------------------------------------------------------------------------------------------------}
+{----2----}
+empiezaIgual :: Number -> Plagio
+empiezaIgual numero obra_1 obra_2 = take numero (purificarTexto (titulo obra_1)) == purificarTexto (titulo obra_2)
 
-agregaronIntro :: Plagio
-agregaronIntro obra_1 obra_2 = compararString (tomarUltimosNCaracteres (diferenciaEntreObras obra_1 obra_2) obra_1) (nombre_obra obra_2)
+{------------------------------------------------------------------------------------------------------------}
+{----3----}
+leAgregaronIntro :: Plagio
+leAgregaronIntro obra_1 obra_2 = drop (cantidadAgregado obra_1 obra_2) (purificarTexto (titulo obra_1)) == purificarTexto (titulo obra_2)
 
----Bots
---Modelado de Bots
-data Bot = UnBot {
-    nombre_fabricante :: String,
-    plagios :: [Plagio]
-} deriving Show
-
---declaracion de Bots
-bot1 :: Bot
-bot1 = UnBot{
-    nombre_fabricante = "Acme",
-    plagios = [copiaLiteral, agregaronIntro]
-}
-
-bot2 :: Bot
-bot2 = UnBot{
-    nombre_fabricante = "HP",
-    plagios = [copiaLiteral]
-}
-
---Si el bot detecta plagio
-detectoPlagio :: [Plagio] -> Obra -> Obra -> Bool
-detectoPlagio [x] obra_1 obra_2 = x obra_1 obra_2
-detectoPlagio [] obra_1 obra_2 = False
-detectoPlagio (x:y:xy) obra_1 obra_2 
-    |(x obra_1 obra_2) == False = detectoPlagio (y:xy) obra_1 obra_2
-    |(x obra_1 obra_2) = True
-
-botDetectoPlagio :: Bot -> Obra -> Obra -> Bool
-botDetectoPlagio bot = detectoPlagio (plagios bot)
-
---Cadena de Plagiadores ordenados
-obrasRepetidas :: Bot -> [Obra] -> Obra -> Bool
-obrasRepetidas bot obras obra = any (detectoPlagio (plagios bot) obra) obras
-
-alMenosUnaListaRepetida :: [Obra] -> [Obra] -> Bot -> Bool
-alMenosUnaListaRepetida [] obras bot = False
-alMenosUnaListaRepetida [x] obras bot = obrasRepetidas bot obras x
-alMenosUnaListaRepetida (x:y:xy) obras bot
-    |obrasRepetidas bot obras x == False = alMenosUnaListaRepetida (y:xy) obras bot
-    |obrasRepetidas bot obras x = True
-
-todosPlagiadores :: [Autor] -> Bot -> Bool
-todosPlagiadores [] bot = False
-todosPlagiadores [x] bot = False
-todosPlagiadores (x:y:xy) bot = alMenosUnaListaRepetida (obras x) (obras y) bot && todosPlagiadores (y:xy) bot
-
---Lista de autores redimidos
+{------------------------------------------------------------------------------------------------------------}
+{----4----}
 
 
----Infinito
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+{-----------------------------------------------------Bots---------------------------------------------------}
+--------------------------------------------------Punto 4 (ok)------------------------------------------------
+{-Modelar dos bots de ejemplo, incluyendo todas las formas de detección existentes hasta ahora.-}
+{------------------------------------------------------------------------------------------------------------}
+--Modelado de bots
+newtype Bot
+  = UnBot {formasDeteccion :: [Plagio]}
+  deriving Show
+
+--Declaracion de bots
+bot_1 :: Bot
+bot_1 = UnBot [copiaLiteral, leAgregaronIntro]
+
+bot_2 :: Bot
+bot_2 = UnBot [empiezaIgual 21]
+
+--------------------------------------------------Punto 5 (R+)------------------------------------------------
+{-Un bot detecta si una obra es plagio de otra si verifica alguna de las formas de detección que maneja.-}
+{------------------------------------------------------------------------------------------------------------}
+aplicarPlagio :: Obra -> Obra -> Plagio ->  Bool
+aplicarPlagio obra_1 obra_2 plagio = plagio obra_1 obra_2 && (año_publicacion obra_1 > año_publicacion obra_2)
+
+botDetectarPlagio :: Bot -> Obra -> Obra -> Bool
+botDetectarPlagio bot obra_1 obra_2 = any (aplicarPlagio obra_1 obra_2) (formasDeteccion bot)
+
+--------------------------------------------------Punto 6 (R+)------------------------------------------------
+{-Dado un conjunto de autores y un bot, detectar si es una cadena de plagiadores. Es decir, el segundo 
+plagió al primero, el tercero al segundo, y así. Se considera que un autor plagió a otro cuando 
+alguna de sus obras es plagio de alguna de las del otro según el bot.-}
+{------------------------------------------------------------------------------------------------------------}
+
+
+--------------------------------------------------Punto 7 (F)-------------------------------------------------
+{-Dado un conjunto de autores y un bot, encontrar a los autores que  "hicieron plagio pero aprendieron",  
+que significa que luego de que el bot detectara que una de sus obras fue plagio de alguna de los otros 
+autores, nunca más volvió a plagiar. En definitiva, su plagio detectado fue el primero y el último.-}
+{------------------------------------------------------------------------------------------------------------}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+{--------------------------------------------------Infinito--------------------------------------------------}
+--------------------------------------------------Punto 8 (R+)------------------------------------------------
+{-Codificar una obra infinita. ¿Qué sucede si se desea verificar si esa obra es plagio de otra con cada 
+una de las formas existentes? Justificar conceptualmente en cada caso.-}
+{------------------------------------------------------------------------------------------------------------}
+--Obra infinita
 obraInfinita :: Obra
-obraInfinita = UnaObra{
-    fecha_publicacion = 0,
-    nombre_obra = cycle "Infinito"
-}
-
-{-
---Copia literal
-Si comparo la obra infinita con una obra finita va devolver un booleano, porque recorrerá cada caracter hasta llegar al final de la oracion finita y 
-al no existir más elementos devolverá False. En cambio, si compara dos cadenas infinitas puede variar, si estás son distintas en algun elemento 
-devolverá False. En el caso de ser ambas iguales, jamas dejará de comparar elementos y no podrá dar un resultado.
---empiezanIgual
-Siempre devolverá un valor ya que toma los primeros elementos de cada cadena sin importar su largo.
---agregaron Intro
-No podrá devolver un valor jamás ya que no puede comparar el largo de ambas cadenas.
--}
+obraInfinita = UnaObra (cycle "Obra infinita... ") 2000
+{------------------------------------------------------------------------------------------------------------}
+--Respuestas
