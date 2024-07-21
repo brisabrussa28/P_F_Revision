@@ -38,5 +38,4 @@ Existen diferentes bots, y cada uno detecta diversas formas de plagio. Además s
     7. Dado un conjunto de autores y un bot, encontrar a los autores que  "hicieron plagio pero aprendieron",  que significa que luego de que el bot detectara que una de sus obras fue plagio de alguna de los otros autores, nunca más volvió a plagiar. En definitiva, su plagio detectado fue el primero y el último.
 
 ## Infinito
-    8. Codificar una obra infinita.
-    9. ¿Qué sucede si se desea verificar si esa obra es plagio de otra con cada una de las formas existentes? Justificar conceptualmente en cada caso.
+    8. Codificar una obra infinita. ¿Qué sucede si se desea verificar si esa obra es plagio de otra con cada una de las formas existentes? Justificar conceptualmente en cada caso.
