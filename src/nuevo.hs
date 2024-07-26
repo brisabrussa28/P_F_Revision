@@ -1,7 +1,8 @@
+{-
 module Library where
 import PdePreludat
 import Data.Char (toLower)
-{-
+
 ---Autores y Obras
 --Modelo de Autor
 data Autor = UnAutor{

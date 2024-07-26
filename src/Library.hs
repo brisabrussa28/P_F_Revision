@@ -49,13 +49,13 @@ data Autor = UnAutor{
 {------------------------------------------------------------------------------------------------------------}
 --Declaracion de autores
 cesar :: Autor
-cesar = UnAutor "Julio Cesar" [o_pato_1997, mSM]
+cesar = UnAutor "Julio Cesar" [o_pato_1997]
 
 cortazar :: Autor
-cortazar = UnAutor "Julio Cortazar" [o_pato_1996]
+cortazar = UnAutor "Julio Cortazar" [o_pato_1996, semanticaMSM]
 
 trump :: Autor
-trump = UnAutor "Donald Trump" [semanticaV, semanticaMSM]
+trump = UnAutor "Donald Trump" [semanticaV, mSM]
 {------------------------------------------------------------------------------------------------------------}
 -------------------------------------------------Punto 2 (F)--------------------------------------------------
 {-Conocer la versión cruda de un texto, que consiste en eliminar los acentos de las letras existentes y 
@@ -157,7 +157,16 @@ botDetectarPlagio bot obra_1 obra_2 = any (aplicarPlagio obra_1 obra_2) (formasD
 plagió al primero, el tercero al segundo, y así. Se considera que un autor plagió a otro cuando 
 alguna de sus obras es plagio de alguna de las del otro según el bot.-}
 {------------------------------------------------------------------------------------------------------------}
+autorPlagio :: Autor -> Bot -> Obra -> Bool
+autorPlagio autor bot obra = any (botDetectarPlagio bot obra) (obras autor)
 
+autorSPlagioAutorO :: Autor -> Autor -> Bot -> Bool
+autorSPlagioAutorO autor_s autor_o bot = any (autorPlagio autor_s bot) (obras autor_o)
+
+esCadenaDePlagiadores :: [Autor] -> Bot -> Bool
+esCadenaDePlagiadores [] bot = False
+esCadenaDePlagiadores [x,y] bot = autorSPlagioAutorO x y bot
+esCadenaDePlagiadores (x:y:xy) bot = autorSPlagioAutorO x y bot && esCadenaDePlagiadores xy bot
 
 --------------------------------------------------Punto 7 (F)-------------------------------------------------
 {-Dado un conjunto de autores y un bot, encontrar a los autores que  "hicieron plagio pero aprendieron",  
