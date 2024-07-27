@@ -218,11 +218,11 @@ obraInfinita2 = UnaObra (cycle "X ") 2000
 --------------Respuestas
 --copiaLiteral
 {-En este caso existen tres posibles caso. 
-Si se compara la obra infinita con una finita, gracias al Lazy Evaluation, una vez se terminan los elementos comparables de una
+-Si se compara la obra infinita con una finita, gracias al Lazy Evaluation, una vez se terminan los elementos comparables de una
 de las dos cadenas, queda claro que no son iguales y da False.
-Si se comparan dos obras infinitas distintas, El Lazy Evaluation al encontrar tan solo un elemento distinto, cortara el proceso y dará False sin importar si existen aun elementos
+-Si se comparan dos obras infinitas distintas, El Lazy Evaluation al encontrar tan solo un elemento distinto, cortara el proceso y dará False sin importar si existen aun elementos
 sin comparar.
-Si se comparan dos listas infinitas iguales, jamás dará resultado y no habrá Lazy Evaluation, ya que no podrá jamás dejar de comparar elementos.-}
+-Si se comparan dos listas infinitas iguales, jamás dará resultado y no habrá Lazy Evaluation, ya que no podrá jamás dejar de comparar elementos.-}
 
 --empiezaIgual
 {-Gracias al Lazy Evaluation solo toma una cantidad finita de letras sin tomar en cuenta el largo de las cadenas, 
@@ -233,9 +233,9 @@ por lo que dará un resultado sin problema el cual puede ser verdadero o falso.-
 
 --letrasIguales
 {-Aquí pueden ocurrir cuatro cosas.
-Si realizo letrasIguales obraInfinita o_pato_1996, dará falso, porque gracias al Lazy Evaluation, al encontrar una sola letra de la obra infinita que no esté en
+-Si realizo letrasIguales obraInfinita o_pato_1996, dará falso, porque gracias al Lazy Evaluation, al encontrar una sola letra de la obra infinita que no esté en
 la segunda obra, dará el resultado ya que no será posible que todas las letras se encuentren.
-Si comparo cada letra de la obraInfinita con una obra que tenga el mismo texto que se reíte en ciclo, jamás podrá dar falso, ya que todas las letras existen dentro de la cadena finita
+-Si comparo cada letra de la obraInfinita con una obra que tenga el mismo texto que se reíte en ciclo, jamás podrá dar falso, ya que todas las letras existen dentro de la cadena finita
 y no podrá dejar de comparar. No hay lazy evaluation.
-Si comparo dos obras infinitas, no importa si son distintas, porque buscara infinitamente de todas formas, impidiendo dar un resultado. No hay lazy evaluation.
-Si realizo letrasIguales o_pato_1996 obraInfinita, jamás dará resultado, porque buscará de forma infinita las letras del titulo finito dentro del infinito. No hay lazy evaluation.-}
+-Si comparo dos obras infinitas, no importa si son distintas, porque buscara infinitamente de todas formas, impidiendo dar un resultado. No hay lazy evaluation.
+-Si realizo letrasIguales o_pato_1996 obraInfinita, jamás dará resultado, porque buscará de forma infinita las letras del titulo finito dentro del infinito. No hay lazy evaluation.-}
